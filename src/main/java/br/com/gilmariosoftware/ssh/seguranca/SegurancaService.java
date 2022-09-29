@@ -6,13 +6,14 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashSet;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
 import org.eclipse.microprofile.jwt.Claims;
 
 /**
  *
  * @author gilmario
  */
-@Dependent
+@RequestScoped
 public class SegurancaService {
 
     public String login(String username, String password) {
