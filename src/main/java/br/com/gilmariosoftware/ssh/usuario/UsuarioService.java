@@ -1,13 +1,13 @@
 package br.com.gilmariosoftware.ssh.usuario;
 
 import br.com.gilmariosoftware.ssh.generics.ServiceGeneric;
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
 
 /**
  *
  * @author gilmario
  */
-@Dependent
+@RequestScoped
 public class UsuarioService extends ServiceGeneric<Usuario> {
 
     public UsuarioResponse salvar(UsuarioRequest request) {
