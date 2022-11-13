@@ -15,7 +15,7 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint("/start-websocket/{name}")
+@ServerEndpoint("/terminal/{name}")
 @ApplicationScoped
 public class StartWebSocket {
 
@@ -51,18 +51,29 @@ public class StartWebSocket {
     @OnMessage
     public void onMessage(String message, @PathParam("name") String name) throws IOException {
         System.out.println("onMessage> " + name + ": " + message);
-        if (message.equalsIgnoreCase("_ready_")) {
-            broadcast("User " + name + " joined");
-        } else {
-            broadcast(sshConections.get(name).write(message));
-        }
-        System.out.println(sshConections.get(name).write(message));
+        texto("User " + name + " joined");
+//        if (message.equalsIgnoreCase("_ready_")) {
+//            broadcast("User " + name + " joined");
+//        } else {
+//            broadcast(sshConections.get(name).write(message));
+//        }
+//        System.out.println(sshConections.get(name).write(message));
 //        sshConections.get(name).read();;
     }
 
     private void broadcast(String message) {
         sessions.values().forEach(s -> {
             s.getAsyncRemote().sendObject(message, result -> {
+                if (result.getException() != null) {
+                    System.out.println("Unable to send message: " + result.getException());
+                }
+            });
+        });
+    }
+
+    private void texto(String message) {
+        sessions.values().forEach(s -> {
+            s.getAsyncRemote().sendText(message, result -> {
                 if (result.getException() != null) {
                     System.out.println("Unable to send message: " + result.getException());
                 }
